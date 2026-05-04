@@ -1,21 +1,27 @@
-[project]
-name = "integracao-nbs-autodeal"
+[tool.poetry]
+name = "autodeal-sync"
 version = "0.1.0"
-description = "\"Integracao NBS x AutoDeal\""
-authors = [
-    {name = "Renan Domingos",email = "rna.domingos@hotmail.com"}
-]
+description = "Integracao x AutoDeal"
+authors = ["Renan Domingos <rna.domingos@hotmail.com>"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "requests (>=2.32.3,<3.0.0)",
-    "pandas (>=2.3.0,<3.0.0)",
-    "sqlalchemy (>=2.0.41,<3.0.0)",
-    "pymysql (>=1.1.1,<2.0.0)",
-    "python-dotenv (>=1.1.1,<2.0.0)",
-    "pandera (>=0.24.0,<0.25.0)",
+
+packages = [
+  { include = "*", from = "src" }
 ]
 
+[tool.poetry.dependencies]
+python = ">=3.12"
+requests = "^2.32.3"
+pandas = "^2.3.0"
+sqlalchemy = "^2.0.41"
+pymysql = "^1.1.1"
+python-dotenv = "^1.1.1"
+pandera = "^0.24.0"
+psycopg2 = "^2.9.12"
+
+[tool.poetry.scripts]
+seed-companies = "utils.seed_companies:seed_companies"
+dev = "src.main:main"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
