@@ -1,5 +1,5 @@
-from data.models.company import CompanyModel
 from sqlalchemy.orm import Session
+from data.schemas.company import CompanyModel
 
 def get_all_companies(db: Session):
     '''

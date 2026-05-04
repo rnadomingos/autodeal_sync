@@ -1,24 +1,16 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
-from load_settings import load_settings
+from sqlalchemy import create_engine, inspect
+from sqlalchemy.orm import sessionmaker, declarative_base
+from .load_settings import env_settings
 
-settings = load_settings()
+database = 'POSTGRES'
 
-connection_string = f"mysql+pymysql://{settings['db_user']}:{settings['db_pass']}@{settings['db_host']}:{settings['db_port']}/{settings['db_name']}"
+load = env_settings(database)
+settings = load.load_settings()
 
-engine = create_engine(connection_string, echo=True)
+POSTGRES_STRING_URL = f"postgresql://{settings['db_user']}:{settings['db_pass']}@{settings['db_host']}:{settings['db_port']}/{settings['db_service']}"
 
-SessionLocal = sessionmaker(autoflush=False, autocommit=False, bind=engine)
+engine = create_engine(POSTGRES_STRING_URL)
+inspector = inspect(engine)
 
 Base = declarative_base()
-
-# PARA USAR COM FAST API
-# def get_db():
-#   '''
-#   Function to create connection and session with database
-#   '''
-#   db = SessionLocal()
-#   try:
-#       yield db
-#   finally:
-#       db.close()
+PostgresSessionLocal = sessionmaker(autoflush=False, autocommit=False, bind=engine)
